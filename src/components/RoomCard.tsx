@@ -13,7 +13,9 @@ interface RoomCardProps {
 export default function RoomCard({ room, onClick, variant = 'card' }: RoomCardProps) {
   const bookings = useStore((s) => s.bookings);
   const activeBooking = bookings.find(
-    (b) => b.roomId === room.id && new Date(b.startTime).getTime() <= Date.now() && new Date(b.endTime).getTime() >= Date.now()
+    (b) => b.roomId === room.id && 
+    new Date(b.startTime).getTime() <= Date.now() && 
+    (new Date(b.endTime).getTime() >= Date.now() || b.isOvertime)
   );
   const hasFaultyProjector = room.equipment.some((e) => e.type === 'projector' && e.status === 'faulty');
   const visibleTags = hasFaultyProjector ? room.tags.filter((t) => t !== '投影') : room.tags;
@@ -52,7 +54,7 @@ export default function RoomCard({ room, onClick, variant = 'card' }: RoomCardPr
         {activeBooking && (
           <div className={cn(
             'mt-auto p-3 rounded-lg',
-            activeBooking.isOvertime ? 'bg-red-100' : 'bg-white/80'
+            activeBooking.isOvertime ? 'bg-red-100 border border-red-300' : 'bg-white/80'
           )}>
             <p className={cn(
               'font-semibold text-sm truncate',
@@ -62,9 +64,28 @@ export default function RoomCard({ room, onClick, variant = 'card' }: RoomCardPr
               {activeBooking.title}
             </p>
             <p className="text-xs text-gray-600 mt-0.5">
-              {new Date(activeBooking.startTime).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}
-              {' - '}
-              {new Date(activeBooking.endTime).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}
+              组织者: {activeBooking.organizer}
+            </p>
+            <p className={cn(
+              'text-xs mt-0.5',
+              activeBooking.isOvertime ? 'text-red-700 font-semibold' : 'text-gray-600'
+            )}>
+              {activeBooking.isOvertime ? (
+                <>
+                  ⚠️ 原 {new Date(activeBooking.startTime).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}
+                  {' - '}
+                  {new Date(activeBooking.endTime).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}
+                  {' · 已超时 '}
+                  {Math.max(0, Math.floor((Date.now() - new Date(activeBooking.endTime).getTime()) / 60000))}
+                  {' 分钟'}
+                </>
+              ) : (
+                <>
+                  {new Date(activeBooking.startTime).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}
+                  {' - '}
+                  {new Date(activeBooking.endTime).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}
+                </>
+              )}
             </p>
           </div>
         )}
