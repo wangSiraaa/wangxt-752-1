@@ -30,7 +30,7 @@ export const SAMPLE_ROOMS: MeetingRoom[] = [
     equipment: [
       { id: 'eq-4', name: '投影仪', type: 'projector', status: 'normal', lastChecked: '2026-06-05T08:00:00' },
       { id: 'eq-5', name: '音响系统', type: 'speaker', status: 'normal', lastChecked: '2026-06-05T08:00:00' },
-      { id: 'eq-6', name: '大屏显示器', type: 'display', status: 'normal', lastChecked: '2026-06-05T08:00:00' },
+      { id: 'eq-6', name: '大屏显示器', type: 'display', status: 'handled', lastChecked: '2026-06-05T09:00:00' },
     ],
   },
   {
@@ -66,7 +66,7 @@ export const SAMPLE_ROOMS: MeetingRoom[] = [
     equipment: [
       { id: 'eq-10', name: '投影仪', type: 'projector', status: 'normal', lastChecked: '2026-06-05T08:00:00' },
       { id: 'eq-11', name: '视频会议终端', type: 'video_conf', status: 'normal', lastChecked: '2026-06-05T08:00:00' },
-      { id: 'eq-12', name: '音响系统', type: 'speaker', status: 'normal', lastChecked: '2026-06-05T08:00:00' },
+      { id: 'eq-12', name: '音响系统', type: 'speaker', status: 'handled', lastChecked: '2026-06-05T08:30:00' },
       { id: 'eq-13', name: '大屏显示器', type: 'display', status: 'offline', lastChecked: '2026-06-04T18:00:00' },
     ],
   },

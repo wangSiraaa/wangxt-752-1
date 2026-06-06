@@ -2,7 +2,9 @@ export type Role = 'tenant' | 'frontdesk' | 'admin';
 
 export type RoomStatus = 'available' | 'occupied' | 'cleaning' | 'maintenance';
 
-export type EquipmentStatus = 'normal' | 'faulty' | 'offline';
+export type EquipmentStatus = 'normal' | 'faulty' | 'offline' | 'handled';
+
+export type DoorplateStatus = 'normal' | 'abnormal' | 'handled';
 
 export interface Equipment {
   id: string;
@@ -57,6 +59,13 @@ export const EQUIPMENT_STATUS_LABELS: Record<EquipmentStatus, string> = {
   normal: '正常',
   faulty: '故障',
   offline: '离线',
+  handled: '已处理',
+};
+
+export const DOORPLATE_STATUS_LABELS: Record<DoorplateStatus, string> = {
+  normal: '正常',
+  abnormal: '异常',
+  handled: '已处理',
 };
 
 export const ROLE_PERMISSIONS: Record<Role, { canBook: boolean; canViewSchedule: boolean; canManageEquipment: boolean; canEditRoom: boolean }> = {

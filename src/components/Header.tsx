@@ -1,7 +1,7 @@
 import { useStore } from '@/store/useStore';
 import RoleSelector from './RoleSelector';
 import { useTheme } from '@/hooks/useTheme';
-import { Sun, Moon, RotateCcw, Building2 } from 'lucide-react';
+import { Sun, Moon, RotateCcw, Building2, QrCode } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import type { Role } from '@/types';
 import { ROLE_LABELS, ROLE_PERMISSIONS } from '@/types';
@@ -15,7 +15,7 @@ const NAV_ITEMS: { path: string; label: string; roles: Role[] }[] = [
 ];
 
 export default function Header() {
-  const { role, resetToSample } = useStore();
+  const { role, resetToSample, setShowScanModal } = useStore();
   const { theme, toggleTheme, isDark } = useTheme();
   const location = useLocation();
 
@@ -53,6 +53,14 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
+            <button
+              data-testid="scan-entry-btn"
+              onClick={() => setShowScanModal(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition-colors"
+            >
+              <QrCode className="w-4 h-4" />
+              扫码录入
+            </button>
             <RoleSelector />
             <button
               onClick={toggleTheme}

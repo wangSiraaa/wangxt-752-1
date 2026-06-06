@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from '@/components/Header';
+import ScanModal from '@/components/ScanModal';
 import Home from '@/pages/Home';
 import Booking from '@/pages/Booking';
 import Schedule from '@/pages/Schedule';
@@ -18,6 +19,7 @@ export default function App() {
             <Route path="/equipment" element={<Equipment />} />
           </Routes>
         </main>
+        <ScanModal />
       </div>
     </Router>
   );

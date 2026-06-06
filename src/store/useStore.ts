@@ -9,6 +9,7 @@ interface AppState {
   bookings: Booking[];
   selectedRoomId: string | null;
   bookingError: string | null;
+  showScanModal: boolean;
 
   setRole: (role: Role) => void;
   selectRoom: (id: string | null) => void;
@@ -19,6 +20,8 @@ interface AppState {
   updateRoom: (room: MeetingRoom) => void;
   tickOvertime: () => void;
   resetToSample: () => void;
+  setShowScanModal: (show: boolean) => void;
+  scanEquipment: (equipmentId: string, status: EquipmentStatus) => void;
 }
 
 export const useStore = create<AppState>()(
@@ -29,6 +32,7 @@ export const useStore = create<AppState>()(
       bookings: SAMPLE_BOOKINGS,
       selectedRoomId: null,
       bookingError: null,
+      showScanModal: false,
 
       setRole: (role) => set({ role }),
 
@@ -145,7 +149,26 @@ export const useStore = create<AppState>()(
           bookings: SAMPLE_BOOKINGS,
           selectedRoomId: null,
           bookingError: null,
+          showScanModal: false,
         }),
+
+      setShowScanModal: (show) => set({ showScanModal: show }),
+
+      scanEquipment: (equipmentId, status) =>
+        set((state) => ({
+          rooms: state.rooms.map((r) => {
+            const hasEq = r.equipment.some((e) => e.id === equipmentId);
+            if (!hasEq) return r;
+            return {
+              ...r,
+              equipment: r.equipment.map((e) =>
+                e.id === equipmentId
+                  ? { ...e, status, lastChecked: new Date().toISOString() }
+                  : e
+              ),
+            };
+          }),
+        })),
     }),
     {
       name: 'meeting-room-storage',
